@@ -1,0 +1,22 @@
+
+.home-list-group {
+  display: flex;
+}
+.home-list-group-item {
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #fff;
+  margin-left: 12px;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid orange;
+  text-decoration-line: none;
+  color: orange;
+  font-weight: bold;
+}
+
+.home-list-group-item-active {
+  color: #fff;
+  background-color: rgb(251, 198, 101);
+}

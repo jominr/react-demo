@@ -1,3 +1,7 @@
+# About the project
+
+react18 + typescript + react-router6 + material UI
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
