@@ -10,8 +10,8 @@ const Home = () => {
   return (
     <div>
       <div className="home-list-group">
-        <NavLink className={computedClassName} to="news">News</NavLink>
-        <NavLink className={computedClassName} to="message">Message</NavLink>
+        <NavLink className={computedClassName} to="news">Fetch</NavLink>
+        <NavLink className={computedClassName} to="message">router</NavLink>
       </div>
       <div>
         <Outlet />

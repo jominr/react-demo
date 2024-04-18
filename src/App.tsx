@@ -17,7 +17,8 @@ function App() {
       <div className="wrapper">
         <div className="list-group">
           <NavLink className={computedClassName} end to="/home">Home</NavLink>
-          <NavLink className={computedClassName} to="/about">About</NavLink>
+          <NavLink className={computedClassName} to="/about">Redux</NavLink>
+          <NavLink className={computedClassName} to="/query">Query</NavLink>
         </div>
         <div className="panel-body">
           {element}
