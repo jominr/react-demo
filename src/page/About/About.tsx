@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setName , setAge } from '../../store/stuSlice/stuSlice';
-import { setName as setSchoolName, setAddress } from '../../store/schoolSlice/schoolSlice'
+import { setName , setAge } from '../../store/reducer/stuSlice';
+import { setName as setSchoolName, setAddress } from '../../store/reducer/schoolSlice'
 /* 
   理解context, reducer, redux,
   1 context

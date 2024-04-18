@@ -3,7 +3,7 @@ import { useGetTeachersQuery,
   useGetTeacherByIdQuery, 
   useDelTeacherMutation, 
   useAddTeacherMutation,
-  useUpdateTeacherMutation } from '../../store/teacherApi'
+  useUpdateTeacherMutation } from '../../store/api/teacherApi'
 /*
     web应用中加载数据时需要处理的问题：
     
@@ -47,8 +47,8 @@ const Query = () => {
     refetchOnReconnect: true, // 是否在重新连接后重载数据，断网后恢复连接
   });
 
-  const stuId = 1; // 假设修改某个id的数据，或者添加一条数据时调用一下接口
-  const {data: oneData} = useGetTeacherByIdQuery(stuId, {
+  const stuId = '1'; // 假设修改某个id的数据，或者添加一条数据时调用一下接口
+  const obj = useGetTeacherByIdQuery(stuId, {
     skip: !stuId, // 没有id时就是添加一条数据。
   })
 
@@ -56,6 +56,7 @@ const Query = () => {
       第一个是操作的触发器，第二个是结果集
   */ 
   const [delStudent, delResult] = useDelTeacherMutation();
+  // delStudent(4);
   // 在需要删除时，调用delStudent(3);
 
   const [addStudent, addRes] = useAddTeacherMutation();

@@ -5,7 +5,14 @@ const teacherApi = createApi({ // 配置对象
   reducerPath: 'teacherApi', // Api标识，不重复
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://127.0.0.1/api/',
-
+    // 统一设置请求头
+    prepareHeaders: (headers, {getState}) => {
+      const token = getState().auth.token;
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }), // 指定查询的基础信息，发送请求使用的工具，表示用fetch发送请求
   tagTypes: ['student', 'teacher'], // 用来指定Api中的标签类型
   endpoints(build) {
@@ -14,8 +21,16 @@ const teacherApi = createApi({ // 配置对象
       getTeachers: build.query({
         // 配置这一次查询的信息
         query() {
-          return 'students'
           // 用于指定子路径
+          return 'students'
+          
+          // 单个请求设置header
+          // return {
+          //   url: 'studnets',
+          //   headers: {
+          //     Authorization: "Bearer " + 'token'
+          //   }
+          // }
         },
         transformResponse(baseQueryReturnValue) {
           return baseQueryReturnValue.data;
@@ -25,7 +40,7 @@ const teacherApi = createApi({ // 配置对象
         providesTags:[{type: 'student', id: 'LIST'}], // 标签更细化
       }),
       getTeacherById: build.query({
-        qiery(id) {
+        query(id) {
           return `students/${id}`
         },
         transformResponse(baseQueryReturnValue) {

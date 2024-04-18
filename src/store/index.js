@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { stuReducer } from "./stuSlice/stuSlice";
-import { schoolReducer } from "./schoolSlice/schoolSlice";
-import teacherApi from "./teacherApi";
-import {setupListeners} from "@reduxjs/toolkit/query"
+import { stuReducer } from "./reducer/stuSlice";
+import { schoolReducer } from "./reducer/schoolSlice";
+import teacherApi from "./api/teacherApi";
+import { authApi } from "./api/authApi";
+import {setupListeners} from "@reduxjs/toolkit/query";
+import { authSlice } from "./reducer/authSlice";
 
 // 创建store, 传入配置对象
 const store = configureStore({
@@ -10,9 +12,11 @@ const store = configureStore({
     student: stuReducer,
     school: schoolReducer,
     [teacherApi.reducerPath] : teacherApi.reducer,
+    [authApi.reducerPath] : authApi.reducer,
+    auth: authSlice.reducer,
   },
   middleware: getDefaultMiddleware => 
-      getDefaultMiddleware().concat(teacherApi.middleware), // 缓存生效
+      getDefaultMiddleware().concat(teacherApi.middleware, authApi.middleware), // 缓存生效
 });
 
 // 设置以后，将会支持refetchOnFocus, refetchOnReconnect,

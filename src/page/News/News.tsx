@@ -20,7 +20,7 @@ const News = () => {
   const fetchDataAsync = useCallback(async() => {
     try {
       setError(null);
-      const res = await fetch('http://127.0.0.1/api/user/list');
+      const res = await fetch('http://127.0.0.1/api/students');
       if (res.ok) {
         const data = await res.json();
         setStuData([{
@@ -43,7 +43,7 @@ const News = () => {
   // 也可以用useCallback
   const deleteHander = async (id: number) => {
     try {
-      const res = await fetch(`http://127.0.0.1/api/user/${id}`, {
+      const res = await fetch(`http://127.0.0.1/api/students/${id}`, {
         method: 'delete'
       });
       if (!res.ok) {
@@ -105,7 +105,7 @@ const News = () => {
   useEffect(()=> {
     setLoading(true);
     setError(null);
-    fetch('http://127.0.0.1/api/user/list')
+    fetch('http://127.0.0.1/api/students')
       .then((res)=> {
         if (res.ok) {
           return res.json();
