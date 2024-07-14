@@ -1,6 +1,8 @@
 # About the project
 
-react18 + typescript + react-router6 + material UI
+react18 + typescript + react-router6 + redux-toolkit
+
+这个 demo 展示了目录结构，我会在这个 demo 中做 code test
 
 # Getting Started with Create React App
 

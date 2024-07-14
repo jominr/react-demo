@@ -1,0 +1,28 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.tabs-list {
+  display: flex;
+  gap: 6px;
+}
+.tabs-list-item {
+  padding: 4px 10px;
+  background: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+
+  --active-color: blueviolet;
+}
+.tabs-list-item:hover {
+  border-color: var(--active-color);
+  color: var(--active-color);
+}
+.tabs-list-item--active,
+.tabs-list-item--active:hover {
+  border-color: var(--active-color);
+  background-color: var(--active-color);
+  color: #fff;
+}

@@ -1,0 +1,27 @@
+.trafficLight {
+  --size: 50px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: var(--size);
+  background-color: #555;
+}
+
+.trafficLightContainer {
+  background-color: #000;
+  display: flex;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.trafficLightContainerVertical {
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-items: center;
+}

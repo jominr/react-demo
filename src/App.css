@@ -1,12 +1,17 @@
 .App {
   padding: 100px;
 }
+.layout {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 .wrapper {
   display: flex;
 }
 .panel-body {
   width: 100%;
-  height: 700px;
+  height: 600px;
   margin-left: 20px;
   border: 1px solid #eee;
   border-radius: 30px;
@@ -17,8 +22,9 @@
   display: flex;
   flex-direction: column;
 }
+
 .list-group-item {
-  width: 100px;
+  width: 120px;
   height: 40px;
   line-height: 40px;
   background-color: #fff;

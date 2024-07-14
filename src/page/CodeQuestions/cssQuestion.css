@@ -1,0 +1,310 @@
+/* 
+
+  1. BFC
+  https://www.bilibili.com/video/BV1Dt42147h4?p=11&spm_id_from=pageDriver&vd_source=c868c79cf31874f2b883e51a340e2c6a
+  BFC：Block Formatting Context, 独立的块级渲染环境。
+  独立布局环境，内部元素布局，与外部互不影响
+
+  - 设置浮动 (那就是指浮动元素内部)
+  - overflow auto, scroll, hidden
+  - position absolute, fixed, 
+  - 根元素是一个BFC
+  
+  应用
+  - 解决浮动元素的父元素高度坍塌
+  - 解决非浮动元素被浮动元素覆盖的问题
+  - 解决外边距垂直方向的重合问题
+
+
+  2. BFC,IFC,GFC,FFC
+  BFC块级格式上下文，独立的布局环境，BFC的内部元素与外部元素互不影响
+  IFC：inline formatting context, 行内元素上下文，
+  GFC: grid formatting context, 网格布局格式化上下文，
+  FFC： flex formatting context, 弹性格式化上下文
+
+  3. Flex布局
+  是flexible box的缩写，弹性布局
+  display: flex;
+  flex-direction: row, 主轴方向
+  flex-wrap: 如何换行，nowrap
+  flex-flow: flex-direction和flex-wrap的简写形式。默认值是row nowrap
+  justify-content: 主轴上的对齐方式
+  align-items: 交叉轴的对齐方式
+  align-content: 定义多跟轴线对齐的方式。项目只有一根轴线是不起作用的。
+
+  子元素属性：
+  order: 排列顺序，值越小，越靠前。
+  flex-grow: 放大比例，默认是0，就是不放大。
+  flex-shrink: 缩小比例，默认是1，就是如果空间不足，该项目将缩小。
+  flex-basis: 在分配多余空间之前项目主轴的主轴空间
+  flex: flex-grow, flex-shrink, flex-basis的简写。默认 0 1 auto. 
+
+  4. 分析比较opacity: 0, visibility: hidden, display: none 优劣势和使用场景
+  -结构：
+    display: none，从DOM中完全消失，不占位。也不能点击。
+    visibility, 还在DOM中占据空间，内容不可见，不能点击。
+    opacity: 0, 还在DOM树中，内容不可见，但是可以点击。
+
+  -继承：
+    display:none, opacity: 0, 非继承属性。由子孙节点消失，由于元素从渲染树中消失造成。通过修改子孙元素节点，属性是无法显示的。
+    visibility: hidden, 是继承属性。子孙节点消失，由于继承了hidden，通过visibility: available,可以让子孙节点显示。
+
+  -性能：
+    display:none, 修改会造成文档回流，性能消耗比较大。
+    visibility，只会造成重绘，性能消耗较小。
+    opacity: 只会造成重绘，性能消耗较小。
+
+  5. 如何用CSS或JS实现多行文本溢出省略效果，考虑兼容性
+    CSS单行:
+    overflow: hidden; // 超出隐藏
+    text-overflow: ellipsis; // 设置省略号。
+    white-space: nowrap; // 不换行，对于连续的数字或英文字母可省略，因为这个是指空格的
+
+    CSS多行：
+    display: -webkit-box; // 设置弹性盒模型
+    -webkit-box-orient: vertical; // 设置弹性盒子子元素的排列方式
+    -webkit-line-clamp: 4; // 设置显示的行数
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    针对兼容性考虑: class3
+    在后面追加...和相应的样式。
+*/
+
+.class1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.class2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.class3 {
+  position: relative;
+  line-height: 20px;
+  max-height: 40px;
+  overflow: hidden;
+}
+.class3::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-left: 40px;
+  background: -webkit-linear-gradient(left, transparent, #fff 55%);
+  background: -o-linear-gradient(right, transparent, #fff 55%);
+  background: -moz-linear-gradient(right, transparent, #fff 55%);
+  background: linear-gradient(to right, transparent, #fff 55%);
+}
+
+/* 
+*   6. 居中为什么要使用transform，为什么不适用marginLeft/Top (阿里)
+    transform是一个合成属性，对合成属性进行transition和animation, 动画将会创建一个合成层，
+    这使得动画元素在一个独立的层中进行，通常情况下浏览器会将一个层的内容先绘制一个位图中，然后再进行纹理，上传到GPU中。
+    只要该层的内容不发生改变，就没必要进行重绘。由浏览器进行重新的复合，来形成新的一帧。
+
+    而如果使用top,left进行布局属性，该属性的变化会导致重排，reflow, relayout, 对这些受影响的节点都会进行CSS计算，
+    计算后生成布局，再进行重绘过程。浏览器需要为整个层进行重绘，并且重新上传到GPU中，造成了极大的性能损耗。
+
+    所以说使用合成属性，而不是布局属性。
+
+*/
+
+.class4-father {
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+.class4-son {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+}
+
+/*
+  7. 粘性布局sticky, CSS3属性
+  positon: sticky; 
+
+  当该元素的位置要超出偏移范围时，就会变成fixed
+  可以通过top, left进行fixed的定位。
+
+  特点：
+    - 不脱离文档流
+    - top: 设置吸顶的位置
+    - 元素固定的相对偏移，是相对于离它最近的具有滚动框的祖先元素，
+      如果祖先元素是不可滚动的，是相对于最近块级组件containing block来计算元素的偏移量的。
+
+
+  8. CSS3 transition和animation的属性分别有哪些
+  transition
+  - transition-property  过渡css属性
+  - transition-duration  过渡的完成时间
+  - transition-timing-function  过渡函数
+  - transition-delay  延迟的时间
+  可以缩写
+
+  animation
+  - animaition-name  关键帧名称
+  - animation-duration  时间是多少秒或者毫秒
+  - animation-timing-function  如何完成一个周期
+  - animation-delay  设置延迟间隔
+  - animation-iteration-count  播放次数
+  - animation-direction   是否应该反向播放动画
+  - animation-fill-mode   当动画不播放时 应用什么样的形式
+  - animation-play-state  指定动画正在运行或者已暂停
+
+  9. png8, png24, png32的区别，并简单讲讲png的压缩原理。
+  - png8: 8bits, 8位，相当于用2的8次方大小来存储图片的颜色种类。也就是说png8能存储256种颜色。
+  - png24: 3个8bits, 也就是rgb, r是0到255，g是0到255，b是0到255，也就是256*256*256这么多种颜色。
+  - png32: png24再加上8位这样一个透明的颜色色道，也就是rgba
+
+  png图片压缩 两个阶段
+  - 预解析: png图片预处理，方便后续压缩
+  - 压缩: 执行deflate压缩，该算法结合了LZ77算法和huffman算法，对图片进行编码
+
+  10. 如果用CSS实现一个三角形
+  - 上下左右边框的宽度、颜色，就可以生成不同的三角形和梯形。
+*/
+.class5-triangle {
+  width: 0;
+  height: 0;
+  border: 10px solid red;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+/*
+  11. 清楚浮动的方法有哪些？
+  - clear: 在浮动元素上添加空的div，添加样式{ clear: both; height: 0; overflow: hidden }
+  - 给浮动元素的父级设置高度，
+  - 父级元素设置成inline-block, 这时 margin: 0 auto居中方式无效。
+  - 父级元素设置成 overflow: hidden或者overflow: auto, 这样触发了BFC
+  - 万能消除法微元素：.clearfix::after {content: ''; clear: both}
+  - flex布局
+
+  12. CSS3 新增
+  - 选择器：原先id选择器，element选择器，class选择器。
+      现在，attribute属性选择器，伪类选择器，结构伪类选择器，sibling兄弟选择器，子元素选择器。
+      
+  - 盒子模型：border-radius, box-shadow, border-image
+  - 背景：background-size, background-origin, background-clip 
+  - 文本效果：text-shadow, word-wrap
+  - 渐变：线性渐变、径向渐变
+  - 字体: @font-face
+  - 2D3D transform transform-origin
+  - 过渡与动画，transition, @keyframes, animation
+  - 媒体查询
+  - 多列布局
+
+**/
+input[value] {
+  color: pink; /* 指定输入框具有value属性的元素xxxx */
+}
+input[type=text] {
+  color: pink;
+}
+input[class^=icon] {
+  color: pink; /* class以icon开头的元素, class$=data, 以data结尾的元素 */
+}
+div::before, div::after,
+u li:first-child, u li:last-child, u li:nth-child(2), li:nth-child(even), li:nth-child(3n+1) {
+  color: pink;
+}
+div \~ p {
+  color: pink; /* 兄弟组合，div元素之后的同级的p元素*/
+}
+div > p {
+  color: pink; /* 所有div元素的直接子元素p */
+}
+
+/* 
+  13. z-index属性什么时候会失效？
+  z-index值越大越在上层， position: relative, absolute, fixed;
+  - 父元素relative，子元素的z-index会失效。解决方案：父元素改成 absolute或者static
+  - 元素position为非static，
+  -float
+  ？？？？？没懂这个题。需要再查。
+
+  14. CSS加载会造成阻塞吗？
+  结论：
+  - CSS加载不会阻塞DOM树的解析，
+  - 选阻塞DOM树的渲染，
+  - 阻塞后面JS语句执行
+
+  提高CSS加载速度：
+  - 使用CDN，挑选最近的具有缓存的节点，减少加载的时间。
+  - 对CSS进行压缩，webpack，gzip对CSS压缩
+  - 使用合理的缓存，设置cache-control, expires, e-tag, 注意文件更新以后避免缓存的影响，因此要给文件加hash-tag哈希值。这样缓存能检测到文件的变化
+  - 减少http请求数，将多个CSS文件进行合并，或者写成内联样式，但是内联样式的缺点是不能缓存。
+
+  15. 浏览器渲染的流程
+  - html解析，生成DOM tree; 解析CSS文件，生成CSSDOM tree.
+  - 将DOM tree 和CSSDOM tree结合，生成 render tree.
+  - 根据rendertree 进行渲染绘制，将像素渲染到屏幕上.
+  
+  注意：
+  - DOM解析和CSS解析是两个并行的过程，
+  - rendertree 依赖上方两个tree, 所以必须等。
+  - 因为JS可能会操作DOM节点和CSS样式，因为浏览器会维持html, js和css的顺序，因此样式表会在js执行前先加载完毕，因此CSS会阻塞后面JS的执行。
+  
+  - async叫异步加载，async脚本在下载完毕后会立即加载，有可能阻塞html的解析和页面渲染。
+  - defer要延迟加载，在html解析后再加载，不会影响html文档的解析，有可能阻塞渲染。适合更不重要，更后置一点的工作。
+  
+  16. postcss原理和用法
+  - css babel, 可以使用比较新的css语法
+  - 是一个使用js插件来转变样式的工具。提供了一个解析器，将css解析成抽象语法树AST。
+
+  常用插件
+  - autoprefixer, 根据兼容性检查css代码，自动为css代码加上浏览器厂商的私有前缀，这样可以兼容不同的浏览器。
+  - precss
+  - postcss-cssnext
+
+  17. css modules
+  作用
+  - 避免样式相互覆盖，css modules加入了局部作用域和模块依赖。
+
+  实现原理
+  - CSS的规则是全局的，任何一个样式的规则，对整个页面有效。
+  - 使用独立无二的classname, 将每个类名编译成独一无二的哈希值。
+
+  18. css预处理器
+  作用：代码混合，嵌套选择器，继承选择器
+  常用的css预处理器有：
+  - less
+  - sass
+  - stylus,
+
+  19. 对requestAnimationFrame的理解
+  实现动画的方法：
+  - setTimeout
+  - css3 transition animation
+  - html canvas
+  - html5 用于请求动画的API，请求动画帧
+
+  -请求动画
+  window.requestAnimationFrame(callback)
+  callback: 下次重绘之前更新动画帧调用的函数。宏任务。
+
+  -取消动画 cancelAnimationFrame id
+
+  优势：
+  - CPU节能，处于未激活的状态下，刷新任务被暂停。
+  - 每个刷新间隔内，函数只被执行一次。
+  - 减少DOM操作，每一帧中把所有DOM操作集中起来。60帧/s
+  
+  setTimeout执行动画缺点
+  - 丢帧：执行时间总是比设定时间要晚，容易出现卡顿，会引起丢帧情况。
+
+  没懂，再查查看看。
+  
+*/
+
+

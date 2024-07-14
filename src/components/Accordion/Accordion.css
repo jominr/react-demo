@@ -1,0 +1,24 @@
+.accordion-header {
+  padding: 10px 16px;
+  background-color: #f7f3f3;
+
+}
+
+.accordion-content {
+  border: 1px solid #f7f3f3;
+  border-radius: 1px;
+  border-top: none;
+  padding: 0 16px;
+  transition: height 0.2s ease; /* 过渡动画，写在主class上 */
+  background-color: #fff;
+}
+
+.accordion-content--active {
+  height: 140px;
+}
+
+.accordion-content--hidden {
+  overflow: hidden;
+  height: 0;
+}
+
